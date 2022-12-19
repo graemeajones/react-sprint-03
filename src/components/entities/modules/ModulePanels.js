@@ -1,14 +1,13 @@
 import { useState } from 'react';
+import Modal from '../../UI/Modal.js';
 import API from '../../api/API.js';
 import Panel from '../../UI/Panel.js';
 import ObjectTable from '../../UI/ObjectTable.js';
-import { ActionTray, ActionModify, ActionDelete } from '../../UI/Actions.js';
+import { ActionTray, ActionModify, ActionDelete, ActionYes, ActionNo, ActionClose } from '../../UI/Actions.js';
 import ToolTipDecorator from '../../UI/ToolTipDecorator.js';
 import ModuleForm from '../../entities/modules/ModuleForm.js';
 
-
 export default function ModulePanels({ modules, reloadModules }) {
-
   // Initialisation ------------------------------
   const putModulesEndpoint = '/modules';
   const deleteModulesEndpoint = '/modules';
@@ -17,9 +16,19 @@ export default function ModulePanels({ modules, reloadModules }) {
   const [showFormId, setShowFormId] = useState(0);
 
   // Context -------------------------------------
+  const { handleModal } = Modal.useModal();
+
   // Methods -------------------------------------
   const toggleModify = (id) => setShowFormId(showFormId === id ? 0 : id);
-  const handleCancel = () => setShowFormId(0);
+
+  const handleDelete = async (id) => { 
+    dismissModal();
+    const response = await API.delete(`${deleteModulesEndpoint}/${id}`);
+    response.isSuccess
+      ? reloadModules()
+      : showErrorModal("Delete failed!", response.message);
+  }
+
   const handleSubmit = async (module) => {
     const response = await API.put(`${putModulesEndpoint}/${module.ModuleID}`, module);
     if (response.isSuccess) {
@@ -27,10 +36,34 @@ export default function ModulePanels({ modules, reloadModules }) {
       reloadModules();
     }
   }
-  const handleDelete = async (id) => { 
-    const response = await API.delete(`${deleteModulesEndpoint}/${id}`);
-    response.isSuccess && reloadModules();
-  }
+  const handleCancel = () => setShowFormId(0);
+
+  const showDeleteModal = (id) => handleModal({
+    show: true,
+    title: "Alert!",
+    content: <p> Are you sure you want to delete this module?</p>,
+    actions: [
+      <ToolTipDecorator key="ActionYes" message="Click to confirm deletion">
+        <ActionYes showText onClick={() => handleDelete(id)} />
+      </ToolTipDecorator>,
+      <ToolTipDecorator key="ActionNo" message="Click to abandon deletion">
+        <ActionNo showText onClick={dismissModal} />
+      </ToolTipDecorator>
+    ]
+  });
+
+  const showErrorModal = (title,message) => handleModal({
+    show: true,
+    title: title,
+    content: <p>{message}</p>,
+    actions: [
+      <ToolTipDecorator key="ActionClose" message="Click to dismiss error message">
+        <ActionClose showText onClick={dismissModal} />
+      </ToolTipDecorator>
+    ]
+  });
+
+  const dismissModal = () => handleModal({ show: false });
 
   // View ----------------------------------------
   const displayableAttributes = [
@@ -57,7 +90,7 @@ export default function ModulePanels({ modules, reloadModules }) {
                 <ActionModify showText onClick={() => toggleModify(module.ModuleID)} buttonText="Modify module"/>
               </ToolTipDecorator>
               <ToolTipDecorator message="Delete this module">
-                <ActionDelete showText onClick={() => handleDelete(module.ModuleID)} buttonText="Delete module"/>
+                <ActionDelete showText onClick={() => showDeleteModal(module.ModuleID)} buttonText="Delete module"/>
               </ToolTipDecorator>
             </ActionTray>
 

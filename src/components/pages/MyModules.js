@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useAuth } from '../auth/useAuth.js';
 import API from '../api/API.js';
 import useLoad from '../api/useLoad.js';
-import { ActionTray, ActionAdd } from '../UI/Actions.js';
+import Action from '../UI/Actions.js';
 import ToolTipDecorator from '../UI/ToolTipDecorator.js';
 import ModulePanels from '../entities/modules/ModulePanels.js';
 import ModuleForm from '../entities/modules/ModuleForm.js';
@@ -62,14 +62,14 @@ export default function MyModules() {
 
       <p>&nbsp;</p>
       
-      <ActionTray>
+      <Action.Tray>
         <ToolTipDecorator message="Add new module">
-          <ActionAdd showText onClick={toggleAddForm} buttonText="Add new module"/>
+          <Action.Add showText onClick={toggleAddForm} buttonText="Add a new module"/>
         </ToolTipDecorator>
         <ToolTipDecorator message="Join a module">
-          <ActionAdd showText onClick={toggleJoinForm} buttonText="Join a module"/>
+          <Action.Add showText onClick={toggleJoinForm} buttonText="Join a module"/>
         </ToolTipDecorator>
-      </ActionTray>
+      </Action.Tray>
 
       {
         showAddModuleForm && <ModuleForm onCancel={cancelAddForm} onSubmit={handleAddSubmit} />

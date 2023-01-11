@@ -3,7 +3,7 @@ import Modal from '../../UI/Modal.js';
 import API from '../../api/API.js';
 import Panel from '../../UI/Panel.js';
 import ObjectTable from '../../UI/ObjectTable.js';
-import { ActionTray, ActionModify, ActionDelete, ActionYes, ActionNo, ActionClose } from '../../UI/Actions.js';
+import Action from '../../UI/Actions.js';
 import ToolTipDecorator from '../../UI/ToolTipDecorator.js';
 import ModuleForm from '../../entities/modules/ModuleForm.js';
 
@@ -44,10 +44,10 @@ export default function ModulePanels({ modules, reloadModules }) {
     content: <p> Are you sure you want to delete this module?</p>,
     actions: [
       <ToolTipDecorator key="ActionYes" message="Click to confirm deletion">
-        <ActionYes showText onClick={() => handleDelete(id)} />
+        <Action.Yes showText onClick={() => handleDelete(id)} />
       </ToolTipDecorator>,
       <ToolTipDecorator key="ActionNo" message="Click to abandon deletion">
-        <ActionNo showText onClick={dismissModal} />
+        <Action.No showText onClick={dismissModal} />
       </ToolTipDecorator>
     ]
   });
@@ -58,7 +58,7 @@ export default function ModulePanels({ modules, reloadModules }) {
     content: <p>{message}</p>,
     actions: [
       <ToolTipDecorator key="ActionClose" message="Click to dismiss error message">
-        <ActionClose showText onClick={dismissModal} />
+        <Action.Close showText onClick={dismissModal} />
       </ToolTipDecorator>
     ]
   });
@@ -85,14 +85,14 @@ export default function ModulePanels({ modules, reloadModules }) {
               <ObjectTable object={module} attributes={displayableAttributes} />
             </Panel.Static>
 
-            <ActionTray>
+            <Action.Tray>
               <ToolTipDecorator message="Modify this module">
-                <ActionModify showText onClick={() => toggleModify(module.ModuleID)} buttonText="Modify module"/>
+                <Action.Modify showText onClick={() => toggleModify(module.ModuleID)} buttonText="Modify module"/>
               </ToolTipDecorator>
               <ToolTipDecorator message="Delete this module">
-                <ActionDelete showText onClick={() => showDeleteModal(module.ModuleID)} buttonText="Delete module"/>
+                <Action.Delete showText onClick={() => showDeleteModal(module.ModuleID)} buttonText="Delete module"/>
               </ToolTipDecorator>
-            </ActionTray>
+            </Action.Tray>
 
             {
               (showFormId === module.ModuleID ) &&

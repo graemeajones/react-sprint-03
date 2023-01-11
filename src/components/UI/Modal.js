@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useCallback } from 'react';
 import Card from './Card.js';
-import { ActionTray } from './Actions.js';
+import Action from './Actions.js';
 import './Modal.scss';
 
 const ModalContext = createContext();
@@ -27,9 +27,9 @@ export default function Modal() {
               {
                 actions && (
                   <div className="ModalActions">
-                    <ActionTray>
+                    <Action.Tray>
                       {actions.map(action => action)}
-                    </ActionTray>
+                    </Action.Tray>
                   </div>
                 )
               }

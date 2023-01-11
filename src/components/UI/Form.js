@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ActionTray, ActionAdd, ActionClose } from './Actions.js';
+import Action from './Actions.js';
 import ToolTipDecorator from './ToolTipDecorator.js';
 import './Form.scss';
 
@@ -22,14 +22,14 @@ export default function Form({ children, onSubmit, onCancel }) {
         }
       </div>
 
-      <ActionTray>
+      <Action.Tray>
         <ToolTipDecorator message="Submit record">
-          <ActionAdd showText onClick={handleSubmit} buttonText="Submit"/>
+          <Action.Submit showText onClick={handleSubmit} />
         </ToolTipDecorator>
         <ToolTipDecorator message="Cancel form">
-          <ActionClose showText onClick={handleCancel} buttonText="Cancel" />
+          <Action.Cancel showText onClick={handleCancel} />
         </ToolTipDecorator>
-      </ActionTray>
+      </Action.Tray>
 
     </form>
   );

@@ -9,12 +9,9 @@ export default function Form({ children, onSubmit, onCancel }) {
   // State ---------------------------------------
   // Context -------------------------------------
   // Handlers ------------------------------------
-  const handleSubmit = () => onSubmit();
-  const handleCancel = () => onCancel();
-
   // View ----------------------------------------
   return (  
-    <form className="BorderedForm">
+    <div className="Form">
 
       <div className="FormTray">
         {
@@ -24,14 +21,14 @@ export default function Form({ children, onSubmit, onCancel }) {
 
       <ActionTray>
         <ToolTipDecorator message="Submit record">
-          <ActionAdd showText onClick={handleSubmit} buttonText="Submit"/>
+          <ActionAdd showText onClick={onSubmit} buttonText="Submit"/>
         </ToolTipDecorator>
         <ToolTipDecorator message="Cancel form">
-          <ActionClose showText onClick={handleCancel} buttonText="Cancel" />
+          <ActionClose showText onClick={onCancel} buttonText="Cancel" />
         </ToolTipDecorator>
       </ActionTray>
 
-    </form>
+    </div>
   );
 }
 

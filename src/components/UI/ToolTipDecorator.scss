@@ -8,9 +8,11 @@
 // -----------------------------------------------
 
 div.ToolTipDecorator {
+  // Layout
   position: relative;
   
   div.ToolTip {
+    // Appearance
     min-width: 100px;
     padding: 5px;
     color: White;
@@ -18,7 +20,8 @@ div.ToolTipDecorator {
     text-align: center;
     border-radius: 5px;
     background: $Red;
-    position: absolute;
     box-shadow: 4px 4px 8px 4px rgba(70,70,70,0.3);
+    // Layout
+    position: absolute;
   }
 }
